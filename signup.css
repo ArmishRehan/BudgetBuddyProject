@@ -1,0 +1,179 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+/* theme styles */
+/* ===== Theme Variables ===== */
+:root {
+    --light-bg-primary: #f8fafc;
+    --light-bg-secondary: #ffffff;
+    --light-text-primary: #1e293b;
+    --light-text-secondary: #64748b;
+    --light-border-color: #e2e8f0;
+    --light-hover-color: #f1f5f9;
+    --light-card-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+  
+    --dark-bg-primary: #0f172a;
+    --dark-bg-secondary: #1e293b;
+    --dark-text-primary: #f8fafc;
+    --dark-text-secondary: #94a3b8;
+    --dark-border-color: #334155;
+    --dark-hover-color: #1e293b;
+    --dark-card-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  
+    --accent-primary: #6366f1;
+    --accent-secondary: #818cf8;
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --danger-color: #ef4444;
+  
+    --sidebar-width: 280px;
+    --header-height: 70px;
+    --transition-speed: 0.3s;
+  }
+/* General Styles */
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--light-bg-primary); /* Light background for overall better contrast */
+}
+
+/* Full-page background */
+.background {
+    background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary)); /* Subtle gradient for a modern look */
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem; /* Added padding for better responsiveness */
+}
+
+/* Main Container */
+.signup-container {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 900px;
+    width: 100%;
+    height: 550px;
+    background-color: var(--light-bg-secondary);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* Enhanced shadow for depth */
+    border-radius: 15px; /* Rounded corners for modern design */
+    overflow: hidden;
+}
+
+/* Left Section */
+.signup-left {
+    flex: 1;
+    background-color: var(--accent-secondary);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--light-text-primary);
+}
+
+.signup-left h1 {
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+}
+
+.signup-left p {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+}
+
+.signup-left .signup-image {
+    width: 80%;
+    max-height: 250px;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+/* Right Section */
+.signup-right {
+    flex: 1;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.signup-right h2 {
+    color: var(--accent-primary);
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+form {
+    width: 100%;
+    max-width: 300px; /* Ensures the form doesn't exceed the available space */
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem; /* Reduced gap for better spacing */
+}
+
+form label {
+    font-size: 0.85rem; /* Slightly smaller label size */
+    color: var(--light-text-primary);
+    font-weight: 600;
+}
+
+form input {
+    padding: 0.7rem; /* Reduced padding to save space */
+    font-size: 0.95rem;
+    border: 1px solid var(--light-border-color);
+    border-radius: 20px; /* Adjusted for proportional look */
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+form input:focus {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 5px rgba(99, 102, 241, 0.5);
+    outline: none;
+}
+
+button {
+    padding: 0.8rem; /* Reduced button padding */
+    font-size: 0.95rem; /* Matches input size */
+    font-weight: bold;
+    color: var(--light-text-primary);
+    background-color: var(--accent-primary);
+    border: none;
+    border-radius: 20px; /* Consistent design */
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background-color: var(--accent-secondary);
+    transform: translateY(-2px);
+}
+
+.signup-right p {
+    margin-top: 1rem; /* Reduced margin for better fit */
+    font-size: 0.9rem;
+    color: var(--light-text-secondary);
+    text-align: center;
+}
+
+.signup-right a {
+    font-size: 0.9rem; /* Consistent text size */
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s, text-shadow 0.2s;
+}
+
+.signup-right a:hover {
+    color: var(--accent-secondary);
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}

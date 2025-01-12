@@ -1,0 +1,133 @@
+const mysql = require("mysql2");
+const express = require("express");
+const bodyParser = require("body-parser");
+const encoder = bodyParser.urlencoded({ extended: true });
+const app = express();
+
+// MySQL Database connection setup
+const connection = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "072043armish", // Update with your MySQL password
+    database: "budgetdb"
+});
+
+// Connect to the database
+connection.connect(function(error) {
+    if (error) {
+        console.error("Error connecting to the database:", error);
+        return;
+    }
+    console.log("Connected to the database successfully");
+});
+
+// Serve static files (like HTML, CSS, JS, etc.)
+app.use(express.static(__dirname));  // This serves all files in the root directory
+
+// Serve the login page
+app.get("/", function(req, res) {
+    res.sendFile(__dirname + "/index.html");
+});
+
+// Handle the login request
+app.post("/", encoder, function(req, res) {
+    const username = req.body.username;
+    const password = req.body.password;
+
+    console.log("Received username:", username);
+    console.log("Received password:", password);
+
+    // Query the database to check credentials
+    connection.query(
+        "SELECT * FROM userslogin WHERE user_name = ? AND user_pass = ?",
+        [username, password],
+        function(error, results, fields) {
+            if (error) {
+                console.error("Error executing query:", error);
+                return res.status(500).send("Database query error");
+            }
+
+            console.log("Query results:", results);
+
+            // Check if the user exists and credentials are correct
+            if (results.length > 0) {
+                console.log("Login successful for:", username);
+                res.redirect("/dashboard");  // Redirect to the dashboard on successful login
+            } else {
+                console.log("Login failed for:", username);
+                res.redirect("/");  // Redirect back to login page if credentials are wrong
+            }
+        }
+    );
+});
+
+// Handle the signup request
+app.post("/signup", encoder, function(req, res) {
+    const { name, email, password, confirmPassword } = req.body;
+
+    console.log("Received name:", name);
+    console.log("Received email:", email);
+    console.log("Received password:", password);
+    console.log("Received confirmPassword:", confirmPassword);
+
+    // Check if passwords match
+    if (password !== confirmPassword) {
+        console.log("Passwords do not match");
+        return res.status(400).send("Passwords do not match");
+    }
+
+    // Insert user into the database
+    connection.query(
+        "INSERT INTO userslogin (user_name, user_pass, user_email) VALUES (?, ?, ?)",
+        [name, password, email],
+        function(error, results) {
+            if (error) {
+                console.error("Error inserting user into database:", error);
+                return res.status(500).send("Database error");
+            }
+
+            console.log("User successfully signed up:", name);
+            res.redirect("/");  // Redirect to login page after successful sign-up
+        }
+    );
+});
+
+// Handle adding expense or income
+app.post("/addRecord", encoder, function (req, res) {
+    const { type, date, amount, description } = req.body;
+
+    console.log("Received data:", { type, date, amount, description });
+
+    // Validate input
+    if (!type || !date || !amount || !description) {
+        console.log("Invalid data received");
+        return res.status(400).send("All fields are required.");
+    }
+
+    // Insert record into the database
+    connection.query(
+        "INSERT INTO budget_records (type, date, amount, description) VALUES (?, ?, ?, ?)",
+        [type, date, amount, description],
+        function (error, results) {
+            if (error) {
+                console.error("Error inserting record into database:", error);
+                return res.status(500).send("Database error.");
+            }
+
+            console.log("Record successfully added:", results);
+            res.redirect("/dashboard"); // Redirect back to dashboard after successful insertion
+        }
+    );
+});
+
+
+// Serve the dashboard page after successful login
+app.get("/dashboard", function(req, res) {
+    console.log("Navigating to dashboard...");
+    res.sendFile(__dirname + "/dashboard.html");  // Serve dashboard page
+});
+
+// Set the port for the server
+app.listen(3000, () => {
+    console.log('Server is running on port 3000');
+});

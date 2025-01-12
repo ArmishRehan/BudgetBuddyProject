@@ -1,0 +1,176 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+/* theme styles */
+/* ===== Theme Variables ===== */
+:root {
+    --light-bg-primary: #f8fafc;
+    --light-bg-secondary: #ffffff;
+    --light-text-primary: #1e293b;
+    --light-text-secondary: #64748b;
+    --light-border-color: #e2e8f0;
+    --light-hover-color: #f1f5f9;
+    --light-card-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+  
+    --dark-bg-primary: #0f172a;
+    --dark-bg-secondary: #1e293b;
+    --dark-text-primary: #f8fafc;
+    --dark-text-secondary: #94a3b8;
+    --dark-border-color: #334155;
+    --dark-hover-color: #1e293b;
+    --dark-card-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  
+    --accent-primary: #6366f1;
+    --accent-secondary: #818cf8;
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --danger-color: #ef4444;
+  
+    --sidebar-width: 280px;
+    --header-height: 70px;
+    --transition-speed: 0.3s;
+  }
+
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--light-bg-primary); /* Light background for overall contrast */
+}
+
+/* Full-page background */
+.background {
+    background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary)); /* Gradient for modern effect */
+    height: 100vh; /* Full viewport height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Main Container: Centering and size adjustment */
+.login-container {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 900px;
+    width: 100%;
+    background-color: var(--light-bg-secondary); /* Light background */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    border-radius: 15px; /* Rounded corners */
+    overflow: hidden;
+}
+
+/* Left Section: Image and tagline */
+.login-left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    background-color: var(--accent-secondary); /* Accent background */
+}
+
+.login-left h1 {
+    font-size: 2rem;
+    color: var(--light-text-primary); /* White text for better contrast */
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.login-left p {
+    font-size: 1.1rem;
+    color: var(--light-text-primary); /* White text */
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.login-left .login-image {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    max-height: 300px;
+    border-radius: 10px;
+}
+
+/* Right Section: Login form */
+.login-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+.login-right h2 {
+    margin-bottom: 1rem;
+    color: var(--accent-primary); /* Accent text color */
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    max-width: 350px;
+}
+
+.login-form label {
+    font-weight: bold;
+    color: var(--light-text-primary); /* Dark text for contrast */
+}
+
+.login-form input {
+    padding: 0.8rem;
+    border: 1px solid var(--light-border-color); /* Lighter border color */
+    border-radius: 25px;
+    font-size: 1rem;
+    transition: border 0.3s ease;
+}
+
+.login-form input:focus {
+    border-color: var(--accent-primary); /* Focused input with accent color */
+    outline: none;
+}
+
+.login-button {
+    background-color: var(--accent-primary);
+    color: var(--light-text-primary);
+    padding: 0.8rem;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+    background-color: var(--accent-secondary); /* Hover effect for button */
+}
+
+.login-right p {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.login-right a {
+    color: var(--accent-primary); /* Accent color for link */
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.login-right a:hover {
+    color: var(--accent-secondary); /* Hover effect for link */
+    text-decoration: underline;
+}

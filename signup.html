@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BudgetBuddy Sign-Up</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Poppins:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="signup.css">
+    </head>
+<body>
+    <main class="background">
+        <div class="signup-container">
+            <div class="signup-left">
+                <h1>Join Budget Buddy</h1>
+                <p>Start your journey to better financial management today!</p>
+                <img src="budget_buddy-removebg-preview.png" alt="Sign-Up Illustration" class="signup-image">
+            </div>
+
+            <div class="signup-right">
+                <h2>Sign Up</h2>
+                <form action="/signup" method="POST">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                
+                    <label for="confirmPassword">Confirm Password:</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                
+                    <button type="submit">Sign Up</button>
+                </form>
+                
+                
+                <p>Already have an account? <a href="index.html">Login here</a></p>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

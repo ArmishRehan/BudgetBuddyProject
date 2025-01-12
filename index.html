@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BudgetBuddy Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Poppins:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <main class="background">
+        <div class="login-container">
+            <!-- Left Section (Image and Tagline) -->
+            <div class="login-left">
+                <div class="tagline">
+                    <h1>Welcome to Budget Buddy</h1>
+                    <p>Take charge of your finances with ease</p>
+                </div>
+                <div class="media">
+                    <img src="budget_buddy-removebg-preview.png" alt="Budget Planning" class="login-image">
+                </div>
+            </div>
+
+            <!-- Right Section (Login Form) -->
+            <div class="login-right">
+                <h2>Login</h2>
+                <form action="/" method="POST" class="login-form">
+                    <label for="username">User Name</label>
+                    <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                
+                    <button type="submit" class="login-button">Login</button>
+                </form>
+                
+                <p>Don't have an account? <a href="signup.html">Sign up here</a></p>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

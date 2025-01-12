@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BudgetBuddy</title>
+
+    <!-- font awesome link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" referrerpolicy="no-referrer" />
+
+    <!-- css styles -->
+    <link rel="stylesheet" href="dashboard.css" />
+</head>
+<body>
+    <!-- main layout container -->
+    <div class="layout-container">
+        <!-- sidebar navigation -->
+        <aside class="sidebar sidebar-active">
+            <!-- close sidebar -->
+            <i class="sidebar-close">
+                <i class="fas fa-times" aria-label="Close sidebar"></i>
+            </i>
+            <!-- logo section -->
+            <div class="logo">
+                <i class="fas fa-sack-dollar logo-icon" aria-label="BudgetBuddy logo"></i>
+                <span class="logo-text">BudgetBuddy</span>
+            </div>
+
+            <!-- MAIN MENU section -->
+            <nav class="menu-section">
+                <h3>Main Menu</h3>
+                <a href="#" class="menu-item active">
+                    <i class="fas fa-chart-pie" aria-label="Dashboard icon"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#transaction" class="menu-item">
+                    <i class="fas fa-wallet" aria-label="Transactions icon"></i>
+                    <span>Transactions</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-chart-line" aria-label="Analytics icon"></i>
+                    <span>Analytics</span>
+                </a>
+            </nav>
+
+            <!-- Finance menu section -->
+            <nav class="menu-section">
+                <h3>Finance</h3>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-list" aria-label="Categories icon"></i>
+                    <span>Categories</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-dollar-sign" aria-label="Expenses icon"></i>
+                    <span>Expenses</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-money-bills" aria-label="Income icon"></i>
+                    <span>Income</span>
+                </a>
+            </nav>
+
+            <!-- settings menu section -->
+            <nav class="menu-section">
+                <h3>Settings</h3>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-gear" aria-label="Settings icon"></i>
+                    <span>Settings</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main content Area -->
+        <div class="content-wrapper">
+            <!-- header section -->
+            <header class="header">
+                <div class="sidebar-toggle">
+                    <i class="fas fa-bars" aria-label="Toggle sidebar"></i>
+                </div>
+                <h1 class="page-title">Dashboard</h1>
+                <div class="header-actions">
+                    <div class="theme-toggle">
+                        <i class="fas fa-moon" aria-label="Toggle theme"></i>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main content area -->
+            <main class="main-content">
+                <!-- stats cards grid -->
+                <div class="stats-grid">
+                    <!-- stats card 1 -->
+                    <div class="stats-card">
+                        <div class="stats-header">
+                            <div class="stats-info">
+                                <div class="stats-title">Total Balance</div>
+                                <div id="total-balance" class="stats-value">0 Rs</div>
+                            </div>
+                            <div class="stats-icon">
+                                <i class="fas fa-wallet" aria-label="Wallet icon"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- stats card 2 -->
+                    <div class="stats-card">
+                        <div class="stats-header">
+                            <div class="stats-info">
+                                <div class="stats-title">Total Expenses</div>
+                                <div id="total-expenses" class="stats-value">0 Rs</div>
+                            </div>
+                            <div class="stats-icon">
+                                <i class="fas fa-dollar-sign" aria-label="Dollar sign icon"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- stats card 3 -->
+                    <div class="stats-card">
+                        <div class="stats-header">
+                            <div class="stats-info">
+                                <div class="stats-title">Total Income</div>
+                                <div id="total-income" class="stats-value">0 Rs</div>
+                            </div>
+                            <div class="stats-icon">
+                                <i class="fas fa-money-bills" aria-label="Money bills icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- expenses chart section -->
+                <div class="chart-section">
+                    <div class="chart-header">
+                        <h2 class="chart-title">Expenses Overview</h2>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="expensesChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- recent transaction table -->
+                <div class="table-section">
+                    <div class="table-header">
+                        <div class="table-title">Recent Transactions</div>
+                    </div>
+                    <table class="transactions-table">
+                        <thead>
+                            <tr>
+                                <th>Transaction ID</th>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Category</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <!-- Other rows unchanged -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Transaction Overview Section -->
+                <div class="transaction-section" id="transaction">
+                    <h2>Transaction Overview</h2>
+                    <div class="transaction-tabs">
+                        <button class="tab-btn active" data-tab="daily">Daily</button>
+                        <button class="tab-btn" data-tab="weekly">Weekly</button>
+                        <button class="tab-btn" data-tab="monthly">Monthly</button>
+                        <button class="tab-btn" data-tab="yearly">Yearly</button>
+                    </div>
+                    <div class="transaction-content">
+                        <div class="tab-content active" id="daily">
+                                <h3>Daily Transactions</h3>
+                                <table class="transactions-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Category</th>
+                                            <th>Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Food</td>
+                                            <td>Rs 500</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Transport</td>
+                                            <td>Rs 300</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Utilities</td>
+                                            <td>Rs 150</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <div class="tab-content" id="weekly">
+                                <h3>Weekly Transactions</h3>
+                                <table class="transactions-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Category</th>
+                                            <th>Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Groceries</td>
+                                            <td>Rs 2000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Travel</td>
+                                            <td>Rs 1500</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Entertainment</td>
+                                            <td>Rs 1000</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <div class="tab-content" id="monthly">
+                                <h3>Monthly Transactions</h3>
+                                <table class="transactions-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Category</th>
+                                            <th>Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Rent</td>
+                                            <td>Rs 10,000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Utilities</td>
+                                            <td>Rs 2500</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Miscellaneous</td>
+                                            <td>Rs 3000</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <div class="tab-content" id="yearly">
+                                <h3>Yearly Transactions</h3>
+                                <table class="transactions-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Category</th>
+                                            <th>Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Vacation</td>
+                                            <td>Rs 50,000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Insurance</td>
+                                            <td>Rs 30,000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Education</td>
+                                            <td>Rs 20,000</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>                            
+                    </div>
+                </div>
+
+                <div class="categories categories-section">
+                    <div class="tabs">
+                        <button class="tab active" onclick="showTab('expenses')">EXPENSES</button>
+                        <button class="tab" onclick="showTab('income')">INCOME</button>
+                      </div>
+                    
+                      
+                    <div id="expenses" class="category-grid active">
+                      <div class="category">
+                        <i class="fas fa-heartbeat"></i>
+                        <p>Health</p>
+                      </div>
+                      <div class="category">
+                        <i class="fas fa-wallet"></i>
+                        <p>Leisure</p>
+                      </div>
+                      <div class="category">
+                        <i class="fas fa-home"></i>
+                        <p>Home</p>
+                      </div>
+                      <div class="category">
+                        <i class="fas fa-utensils"></i>
+                        <p>Cafe</p>
+                      </div>
+                      <div class="category">
+                        <i class="fas fa-graduation-cap"></i>
+                        <p>Education</p>
+                      </div>
+                      <div class="category">
+                        <i class="fas fa-gift"></i>
+                        <p>Gifts</p>
+                      </div>
+                      <div class="category">
+                        <i class="fas fa-shopping-basket"></i>
+                        <p>Groceries</p>
+                      </div>
+                      <div class="category">
+                        <i class="fas fa-users"></i>
+                        <p>Family</p>
+                      </div>
+                      <div class="category">
+                        <i class="fas fa-dumbbell"></i>
+                        <p>Workout</p>
+                      </div>
+                      <div class="category">
+                        <i class="fas fa-bus"></i>
+                        <p>Transportation</p>
+                      </div>
+                      <div class="category">
+                        <i class="fas fa-question-circle"></i>
+                        <p>Other</p>
+                      </div>
+                      <div class="category">
+                        <i class="fas fa-plus-circle"></i>
+                        <p>Create</p>
+                      </div>
+                    </div>
+                
+                    <div id="income" class="category-grid">
+                      <div class="category">
+                        <i class="fas fa-hand-holding-usd"></i>
+                        <p>Paycheck</p>
+                      </div>
+                      <div class="category">
+                        <i class="fas fa-gift"></i>
+                        <p>Gift</p>
+                      </div>
+                      <div class="category">
+                        <i class="fas fa-landmark"></i>
+                        <p>Interest</p>
+                      </div>
+                      <div class="category">
+                        <i class="fas fa-sack-dollar"></i>
+                        <p>Pocket Money</p>
+                      </div>
+                      <div class="category">
+                        <i class="fas fa-question-circle"></i>
+                        <p>Other</p>
+                      </div>
+                      <div class="category">
+                        <i class="fas fa-plus-circle"></i>
+                        <p>Create</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <form id="transaction-form">
+                    <label for="transaction-date">Date:</label>
+                    <input type="date" id="transaction-date" required>
+                    <label for="category">Category:</label>
+                    <input type="text" id="category" required>
+                    <label for="amount">Amount:</label>
+                    <input type="number" id="amount" required>
+                    <label for="description">Description:</label>
+                    <input type="text" id="description" required>
+                    <label>Type:</label>
+                    <input type="radio" name="type" value="income" required> Income
+                    <input type="radio" name="type" value="expense" required> Expense
+                    <button type="submit">Add Transaction</button>
+                </form>
+                
+                <div class="table-section expenses-breakdown">
+                    <div class="table-header">
+                        <div class="table-title">Expenses Breakdown</div>
+                    </div>
+                    <table class="transactions-table">
+                        <thead>
+                            <tr>
+                                <th>Transaction ID</th>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Category</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- New expense rows will be dynamically added here -->
+                        </tbody>
+                    </table>
+                </div>
+                
+
+               <!-- Income Breakdown -->
+               <div class="table-section income-breakdown">
+                <div class="table-header">
+                    <div class="table-title">Income Breakdown</div>
+                </div>
+                <table class="transactions-table">
+                    <thead>
+                        <tr>
+                            <th>Transaction ID</th>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Category</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- New income rows will be dynamically added here -->
+                    </tbody>
+                </table>
+            </div>
+            
+
+
+            </main>
+        </div>
+    </div>
+
+    <!-- scripts section -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>
