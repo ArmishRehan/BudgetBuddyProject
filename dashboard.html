@@ -363,19 +363,33 @@
                   </div>
 
                   <form id="transaction-form">
-                    <label for="transaction-date">Date:</label>
-                    <input type="date" id="transaction-date" required>
-                    <label for="category">Category:</label>
-                    <input type="text" id="category" required>
-                    <label for="amount">Amount:</label>
-                    <input type="number" id="amount" required>
-                    <label for="description">Description:</label>
-                    <input type="text" id="description" required>
-                    <label>Type:</label>
-                    <input type="radio" name="type" value="income" required> Income
-                    <input type="radio" name="type" value="expense" required> Expense
+                    <div>
+                        <label for="type">Transaction Type</label>
+                        <select id="type" name="type">
+                            <option value="expense">Expense</option>
+                            <option value="income">Income</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="date">Date</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+                    <div>
+                        <label for="amount">Amount</label>
+                        <input type="number" id="amount" name="amount" required>
+                    </div>
+                    <div>
+                        <label for="category">Category</label>
+                        <input type="text" id="category" name="category">
+                    </div>
+                    <div>
+                        <label for="description">Description</label>
+                        <textarea id="description" name="description" required></textarea>
+                    </div>
                     <button type="submit">Add Transaction</button>
                 </form>
+                
+              
                 
                 <div class="table-section expenses-breakdown">
                     <div class="table-header">

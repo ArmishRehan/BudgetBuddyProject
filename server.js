@@ -1,7 +1,7 @@
 const mysql = require("mysql2");
 const express = require("express");
 const bodyParser = require("body-parser");
-const encoder = bodyParser.urlencoded({ extended: true });
+const session = require("express-session");
 const app = express();
 
 // MySQL Database connection setup
@@ -21,8 +21,22 @@ connection.connect(function(error) {
     console.log("Connected to the database successfully");
 });
 
+// Configure session middleware
+app.use(
+    session({
+        secret: "yourSecretKey",  // Replace with a strong secret key
+        resave: false,
+        saveUninitialized: true,
+        cookie: { secure: false }  // Set secure: true for production with HTTPS
+    })
+);
+
 // Serve static files (like HTML, CSS, JS, etc.)
-app.use(express.static(__dirname));  // This serves all files in the root directory
+app.use(express.static(__dirname));
+
+// Middleware for parsing incoming JSON and URL-encoded data
+app.use(express.json()); // For handling JSON requests
+app.use(express.urlencoded({ extended: true })); // For handling form submissions (URL-encoded)
 
 // Serve the login page
 app.get("/", function(req, res) {
@@ -30,45 +44,40 @@ app.get("/", function(req, res) {
 });
 
 // Handle the login request
-app.post("/", encoder, function(req, res) {
+app.post("/", function(req, res) {
     const username = req.body.username;
     const password = req.body.password;
 
     console.log("Received username:", username);
-    console.log("Received password:", password);
 
     // Query the database to check credentials
     connection.query(
         "SELECT * FROM userslogin WHERE user_name = ? AND user_pass = ?",
         [username, password],
-        function(error, results, fields) {
+        function(error, results) {
             if (error) {
                 console.error("Error executing query:", error);
                 return res.status(500).send("Database query error");
             }
 
-            console.log("Query results:", results);
-
-            // Check if the user exists and credentials are correct
             if (results.length > 0) {
-                console.log("Login successful for:", username);
-                res.redirect("/dashboard");  // Redirect to the dashboard on successful login
+                req.session.user_id = results[0].user_id;  // Store user_id in session
+                console.log("Login successful, user ID:", req.session.user_id);
+                res.redirect("/dashboard.html");  // Redirect to dashboard after successful login
             } else {
-                console.log("Login failed for:", username);
-                res.redirect("/");  // Redirect back to login page if credentials are wrong
+                console.log("Invalid credentials for username:", username);
+                res.redirect("/");  // Redirect back to login page
             }
         }
     );
 });
 
 // Handle the signup request
-app.post("/signup", encoder, function(req, res) {
+app.post("/signup", function(req, res) {
     const { name, email, password, confirmPassword } = req.body;
 
     console.log("Received name:", name);
     console.log("Received email:", email);
-    console.log("Received password:", password);
-    console.log("Received confirmPassword:", confirmPassword);
 
     // Check if passwords match
     if (password !== confirmPassword) {
@@ -76,7 +85,7 @@ app.post("/signup", encoder, function(req, res) {
         return res.status(400).send("Passwords do not match");
     }
 
-    // Insert user into the database
+    // Insert user into the database with plain text password
     connection.query(
         "INSERT INTO userslogin (user_name, user_pass, user_email) VALUES (?, ?, ?)",
         [name, password, email],
@@ -92,42 +101,43 @@ app.post("/signup", encoder, function(req, res) {
     );
 });
 
-// Handle adding expense or income
-app.post("/addRecord", encoder, function (req, res) {
-    const { type, date, amount, description } = req.body;
+// Add transaction route
+app.post("/api/transactions", function(req, res) {
+    // Log the entire request body to debug
+    console.log("Request body:", req.body);
 
-    console.log("Received data:", { type, date, amount, description });
+    const { type, date, amount, category, description } = req.body;
 
-    // Validate input
-    if (!type || !date || !amount || !description) {
-        console.log("Invalid data received");
-        return res.status(400).send("All fields are required.");
+    // Check if the user is logged in
+    if (!req.session.user_id) {
+        console.log("User not logged in.");
+        return res.status(403).send({ success: false, message: "You must be logged in to add transactions." });
     }
 
-    // Insert record into the database
-    connection.query(
-        "INSERT INTO budget_records (type, date, amount, description) VALUES (?, ?, ?, ?)",
-        [type, date, amount, description],
-        function (error, results) {
-            if (error) {
-                console.error("Error inserting record into database:", error);
-                return res.status(500).send("Database error.");
-            }
+    const userId = req.session.user_id;
 
-            console.log("Record successfully added:", results);
-            res.redirect("/dashboard"); // Redirect back to dashboard after successful insertion
+    // Validate input fields
+    if (!type || !date || !amount || !description) {
+        console.log("Missing required fields in transaction data.");
+        return res.status(400).send({ success: false, message: "All fields are required." });
+    }
+
+    // Insert the transaction into the database
+    const query = "INSERT INTO user_transactions (user_id, type, category, date, amount, description) VALUES (?, ?, ?, ?, ?, ?)";
+    const values = [userId, type, category, date, amount, description];
+
+    connection.query(query, values, function(error, results) {
+        if (error) {
+            console.error("Error inserting into database:", error);
+            return res.status(500).send({ success: false, message: "Error adding record." });
         }
-    );
+
+        console.log("Transaction saved successfully:", results);
+        res.send({ success: true, message: "Transaction added successfully." });
+    });
 });
 
-
-// Serve the dashboard page after successful login
-app.get("/dashboard", function(req, res) {
-    console.log("Navigating to dashboard...");
-    res.sendFile(__dirname + "/dashboard.html");  // Serve dashboard page
-});
-
-// Set the port for the server
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
+// Server listening on port
+app.listen(3000, function() {
+    console.log("Server is running on port 3000");
 });
