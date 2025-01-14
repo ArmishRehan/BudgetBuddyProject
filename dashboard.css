@@ -1,4 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+html {
+    scroll-behavior: smooth;
+}
+
 /* theme styles */
 /* ===== Theme Variables ===== */
 :root {
@@ -286,7 +290,8 @@
 
 /* chart section */
 .chart-section,
-.table-section {
+.table-section,
+.form-section {
     background: var(--bg-secondary);
     padding: 2rem;
     border-radius: 1.5rem;
@@ -314,6 +319,81 @@
     height: 400px;
     position: relative;
 }
+
+
+/* form section */
+#transaction-form {
+    background-color: var(--bg-secondary);
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 500px;
+    margin: auto;
+    margin-top: 1rem;
+  }
+  
+  #transaction-form label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+  
+  #transaction-form input,
+  #transaction-form select,
+  #transaction-form textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: border-color var(--transition-speed);
+  }
+  
+  #transaction-form input:focus,
+  #transaction-form select:focus,
+  #transaction-form textarea:focus {
+    border-color: var(--accent-primary);
+    outline: none;
+    box-shadow: 0 0 5px var(--accent-primary);
+  }
+  
+  #transaction-form textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  
+  #transaction-form button {
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background var(--transition-speed), transform var(--transition-speed);
+  }
+  
+  #transaction-form button:hover {
+    background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary));
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(99, 102, 241, 0.2);
+  }
+  
+  #transaction-form div {
+    display: flex;
+    flex-direction: column;
+  }
+
+  
 
 /* transaction table */
 .transactions-table{
@@ -439,7 +519,7 @@
     margin: 2rem;
 }
 
-.transaction-section h2 {
+.transaction-section h2, .form-section h2 {
   font-size: 1.5rem;
     font-weight: 700;
     background: linear-gradient(135deg, var(--accent-primary),var(--accent-secondary));
@@ -466,9 +546,9 @@
 }
 
 .tab-btn.active {
-  background-color: #4CAF50;
+  background-color: var(--accent-primary);
   color: #fff;
-  border-color: #4CAF50;
+  border-color: var(--accent-primary);
 }
 
 .tab-btn:hover {

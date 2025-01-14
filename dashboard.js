@@ -17,6 +17,7 @@ function toggleTheme() {
     themeIcon.classList.add("fa-moon");
     localStorage.setItem("theme", "light");
   }
+  updateChart();
 }
 
 // Check saved theme
@@ -43,7 +44,6 @@ closeSidebar.addEventListener("click", () => {
   sidebar.classList.remove("sidebar-active");
 });
 
-// Chart initialization
 const ctx = document.getElementById("expensesChart").getContext("2d");
 let expensesChart;
 
@@ -119,6 +119,7 @@ function updateChart() {
 // Initialize chart
 initChart();
 
+
 // Active menu items
 const menuItems = document.querySelectorAll(".menu-items");
 menuItems.forEach((item) => {
@@ -136,6 +137,80 @@ window.addEventListener("resize", () => {
   }
 });
 
+// JavaScript for tab switching in the Transaction Overview section
+
+// Wait for the DOM to be fully loaded before running the script
+document.addEventListener('DOMContentLoaded', () => {
+    // Get all the tab buttons
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    
+    // Get all the tab content containers
+    const tabContents = document.querySelectorAll('.tab-content');
+  
+    // Function to show the tab content and activate the clicked tab
+    const switchTab = (tabId) => {
+        // Hide all tab content and remove active class from all tab buttons
+        tabContents.forEach(tabContent => {
+            tabContent.classList.remove('active');
+        });
+        tabButtons.forEach(button => {
+            button.classList.remove('active');
+        });
+  
+        // Show the content of the clicked tab and activate the clicked tab button
+        document.getElementById(tabId).classList.add('active');
+        const activeButton = document.querySelector(`[data-tab="${tabId}"]`);
+        activeButton.classList.add('active');
+    };
+  
+    // Attach click event listeners to all tab buttons
+    tabButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            const tabId = e.target.getAttribute('data-tab');
+            switchTab(tabId); // Switch to the clicked tab
+        });
+    });
+  
+    // Initialize by showing the daily tab by default
+    switchTab('daily');
+  });
+  
+  
+  function showTab(tabName) {
+    // Get all category grids and tabs
+    const grids = document.querySelectorAll('.category-grid');
+    const tabs = document.querySelectorAll('.tab');
+  
+    // Loop through grids and tabs to toggle the active class
+    grids.forEach(grid => {
+      if (grid.id === tabName) {
+        grid.classList.add('active');
+      } else {
+        grid.classList.remove('active');
+      }
+    });
+  
+    tabs.forEach(tab => {
+      if (tab.innerText === tabName.toUpperCase()) {
+        tab.classList.add('active');
+      } else {
+        tab.classList.remove('active');
+      }
+    });
+  
+    // If "INCOME" is selected, scroll to the last row
+    if (tabName === 'income') {
+      const incomeGrid = document.getElementById('income');
+      const lastCategory = incomeGrid.querySelector('.category:last-child'); // Get the last category
+      if (lastCategory) {
+        lastCategory.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+  }
+
+
+
+//yaha se form wali js agayi ha jo server wali hugi
 // Function to handle form submission
 function handleTransactionSubmit(event) {
   event.preventDefault();
@@ -262,6 +337,12 @@ const recentTransactionsTableBody = document.querySelector(".recent-transactions
 const incomeBreakdownTableBody = document.querySelector(".income-breakdown tbody");
 const expensesBreakdownTableBody = document.querySelector(".expenses-breakdown tbody");
 
+// Select the table bodies for daily, weekly, monthly, and yearly transactions
+const dailyTransactionsTableBody = document.querySelector("#daily-transactions");
+const weeklyTransactionsTableBody = document.querySelector("#weekly-transactions");
+const monthlyTransactionsTableBody = document.querySelector("#monthly-transactions");
+const yearlyTransactionsTableBody = document.querySelector("#yearly-transactions");
+
 fetch('/api/recent-transactions')
     .then(response => response.json())
     .then(data => {
@@ -273,13 +354,39 @@ fetch('/api/recent-transactions')
             incomeBreakdownTableBody.innerHTML = '';
             expensesBreakdownTableBody.innerHTML = '';
 
+            // Clear previous rows in all tables
+            dailyTransactionsTableBody.innerHTML = '';
+            weeklyTransactionsTableBody.innerHTML = '';
+            monthlyTransactionsTableBody.innerHTML = '';
+            yearlyTransactionsTableBody.innerHTML = '';
+
             // Loop through the transactions and populate the tables
             data.transactions.forEach(transaction => {
                 console.log("Processing Transaction:", transaction); // Debug: Log each transaction
 
+               // Parse the transaction date
+               const transactionDate = new Date(transaction.date);
+               const today = new Date();
+            const todayString = today.toDateString(); // Get today's date as string
+
+            // Get the start and end of the current week
+            const weekStart = new Date(today);
+            weekStart.setDate(today.getDate() - today.getDay()); // Set to the start of the week (Sunday)
+            const weekEnd = new Date(weekStart);
+            weekEnd.setDate(weekStart.getDate() + 6); // Set to the end of the week (Saturday)
+
+            // Get the current month and year
+            const year = today.getFullYear();
+            const month = today.getMonth();
               
-                // Create a new row
-                const row = document.createElement("tr");
+              
+
+                 // Create a new row for the transaction
+                 const row = document.createElement("tr");
+                 row.innerHTML = `
+                     <td>${transaction.category}</td>
+                     <td>${transaction.amount}</td>
+                 `;
                 
                 // Populate the row with transaction details
                 row.innerHTML = `
@@ -289,7 +396,26 @@ fetch('/api/recent-transactions')
                    <td>${transaction.category}</td>
                    <td>${transaction.description}</td>
 `;
+                // Categorize the transaction based on the date
+                if (transactionDate.toDateString() === today.toDateString()) {
+                  // Daily Transaction
+                  dailyTransactionsTableBody.appendChild(row.cloneNode(true));
+              }
 
+              if (transactionDate >= weekStart && transactionDate <= weekEnd) {
+                  // Weekly Transaction
+                  weeklyTransactionsTableBody.appendChild(row.cloneNode(true));
+              }
+
+              if (transactionDate.getFullYear() === year && transactionDate.getMonth() === month) {
+                  // Monthly Transaction
+                  monthlyTransactionsTableBody.appendChild(row.cloneNode(true));
+              }
+
+              if (transactionDate.getFullYear() === year) {
+                  // Yearly Transaction
+                  yearlyTransactionsTableBody.appendChild(row.cloneNode(true));
+              }
 
                 // Append the row to the Recent Transactions table
                 recentTransactionsTableBody.appendChild(row.cloneNode(true));
@@ -309,7 +435,7 @@ fetch('/api/recent-transactions')
             console.log("Error:", data.message);
         }
     })
+    
     .catch(error => {
         console.error("Error fetching transactions:", error);
     });
-

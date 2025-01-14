@@ -37,7 +37,7 @@
                     <i class="fas fa-wallet" aria-label="Transactions icon"></i>
                     <span>Transactions</span>
                 </a>
-                <a href="#" class="menu-item">
+                <a href="#Analytics" class="menu-item">
                     <i class="fas fa-chart-line" aria-label="Analytics icon"></i>
                     <span>Analytics</span>
                 </a>
@@ -46,15 +46,11 @@
             <!-- Finance menu section -->
             <nav class="menu-section">
                 <h3>Finance</h3>
-                <a href="#" class="menu-item">
-                    <i class="fas fa-list" aria-label="Categories icon"></i>
-                    <span>Categories</span>
-                </a>
-                <a href="#" class="menu-item">
+                <a href="#expenses" class="menu-item">
                     <i class="fas fa-dollar-sign" aria-label="Expenses icon"></i>
                     <span>Expenses</span>
                 </a>
-                <a href="#" class="menu-item">
+                <a href="#income" class="menu-item">
                     <i class="fas fa-money-bills" aria-label="Income icon"></i>
                     <span>Income</span>
                 </a>
@@ -63,9 +59,9 @@
             <!-- settings menu section -->
             <nav class="menu-section">
                 <h3>Settings</h3>
-                <a href="#" class="menu-item">
+                <a href="index.html" class="menu-item">
                     <i class="fas fa-gear" aria-label="Settings icon"></i>
-                    <span>Settings</span>
+                    <span>Logout</span>
                 </a>
             </nav>
         </aside>
@@ -130,9 +126,9 @@
                 </div>
 
                 <!-- expenses chart section -->
-                <div class="chart-section">
+                <div id="Analytics" class="chart-section">
                     <div class="chart-header">
-                        <h2 class="chart-title">Expenses Overview</h2>
+                        <h2 class="chart-title"> Daily Expenses Overview</h2>
                     </div>
                     <div class="chart-container">
                         <canvas id="expensesChart"></canvas>
@@ -172,212 +168,98 @@
                     </div>
                     <div class="transaction-content">
                         <div class="tab-content active" id="daily">
-                                <h3>Daily Transactions</h3>
-                                <table class="transactions-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Category</th>
-                                            <th>Amount</th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                            
-                            <div class="tab-content" id="weekly">
-                                <h3>Weekly Transactions</h3>
-                                <table class="transactions-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Category</th>
-                                            <th>Amount</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Groceries</td>
-                                            <td>Rs 2000</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Travel</td>
-                                            <td>Rs 1500</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Entertainment</td>
-                                            <td>Rs 1000</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            
-                            <div class="tab-content" id="monthly">
-                                <h3>Monthly Transactions</h3>
-                                <table class="transactions-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Category</th>
-                                            <th>Amount</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Rent</td>
-                                            <td>Rs 10,000</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Utilities</td>
-                                            <td>Rs 2500</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Miscellaneous</td>
-                                            <td>Rs 3000</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            
-                            <div class="tab-content" id="yearly">
-                                <h3>Yearly Transactions</h3>
-                                <table class="transactions-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Category</th>
-                                            <th>Amount</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Vacation</td>
-                                            <td>Rs 50,000</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Insurance</td>
-                                            <td>Rs 30,000</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Education</td>
-                                            <td>Rs 20,000</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>                            
+                            <h3>Daily Transactions</h3>
+                            <table class="transactions-table">
+                                <thead>
+                                    <tr>
+                                        <th>Category</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="daily-transactions">
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="tab-content" id="weekly">
+                            <h3>Weekly Transactions</h3>
+                            <table class="transactions-table">
+                                <thead>
+                                    <tr>
+                                        <th>Category</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="weekly-transactions">
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="tab-content" id="monthly">
+                            <h3>Monthly Transactions</h3>
+                            <table class="transactions-table">
+                                <thead>
+                                    <tr>
+                                        <th>Category</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="monthly-transactions">
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="tab-content" id="yearly">
+                            <h3>Yearly Transactions</h3>
+                            <table class="transactions-table">
+                                <thead>
+                                    <tr>
+                                        <th>Category</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="yearly-transactions">
+                                </tbody>
+                            </table>
+                        </div> 
                     </div>
                 </div>
-
-                <div class="categories categories-section">
-                    <div class="tabs">
-                        <button class="tab active" onclick="showTab('expenses')">EXPENSES</button>
-                        <button class="tab" onclick="showTab('income')">INCOME</button>
-                      </div>
-                    
-                      
-                    <div id="expenses" class="category-grid active">
-                      <div class="category">
-                        <i class="fas fa-heartbeat"></i>
-                        <p>Health</p>
-                      </div>
-                      <div class="category">
-                        <i class="fas fa-wallet"></i>
-                        <p>Leisure</p>
-                      </div>
-                      <div class="category">
-                        <i class="fas fa-home"></i>
-                        <p>Home</p>
-                      </div>
-                      <div class="category">
-                        <i class="fas fa-utensils"></i>
-                        <p>Cafe</p>
-                      </div>
-                      <div class="category">
-                        <i class="fas fa-graduation-cap"></i>
-                        <p>Education</p>
-                      </div>
-                      <div class="category">
-                        <i class="fas fa-gift"></i>
-                        <p>Gifts</p>
-                      </div>
-                      <div class="category">
-                        <i class="fas fa-shopping-basket"></i>
-                        <p>Groceries</p>
-                      </div>
-                      <div class="category">
-                        <i class="fas fa-users"></i>
-                        <p>Family</p>
-                      </div>
-                      <div class="category">
-                        <i class="fas fa-dumbbell"></i>
-                        <p>Workout</p>
-                      </div>
-                      <div class="category">
-                        <i class="fas fa-bus"></i>
-                        <p>Transportation</p>
-                      </div>
-                      <div class="category">
-                        <i class="fas fa-question-circle"></i>
-                        <p>Other</p>
-                      </div>
-                      <div class="category">
-                        <i class="fas fa-plus-circle"></i>
-                        <p>Create</p>
-                      </div>
-                    </div>
                 
-                    <div id="income" class="category-grid">
-                      <div class="category">
-                        <i class="fas fa-hand-holding-usd"></i>
-                        <p>Paycheck</p>
-                      </div>
-                      <div class="category">
-                        <i class="fas fa-gift"></i>
-                        <p>Gift</p>
-                      </div>
-                      <div class="category">
-                        <i class="fas fa-landmark"></i>
-                        <p>Interest</p>
-                      </div>
-                      <div class="category">
-                        <i class="fas fa-sack-dollar"></i>
-                        <p>Pocket Money</p>
-                      </div>
-                      <div class="category">
-                        <i class="fas fa-question-circle"></i>
-                        <p>Other</p>
-                      </div>
-                      <div class="category">
-                        <i class="fas fa-plus-circle"></i>
-                        <p>Create</p>
-                      </div>
-                    </div>
-                  </div>
 
-                  <form id="transaction-form">
-                    <div>
-                        <label for="type">Transaction Type</label>
-                        <select id="type" name="type">
-                            <option value="expense">Expense</option>
-                            <option value="income">Income</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="date">Date</label>
-                        <input type="date" id="date" name="date" required>
-                    </div>
-                    <div>
-                        <label for="amount">Amount</label>
-                        <input type="number" id="amount" name="amount" required>
-                    </div>
-                    <div>
-                        <label for="category">Category</label>
-                        <input type="text" id="category" name="category">
-                    </div>
-                    <div>
-                        <label for="description">Description</label>
-                        <textarea id="description" name="description" required></textarea>
-                    </div>
-                    <button type="submit">Add Transaction</button>
-                </form>
+
+                <div class="form-section">
+                    <h2>Enter Your Transaction</h2>
+                    <form id="transaction-form">
+                        <div>
+                            <label for="type">Transaction Type</label>
+                            <select id="type" name="type">
+                                <option value="expense">Expense</option>
+                                <option value="income">Income</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="date">Date</label>
+                            <input type="date" id="date" name="date" required>
+                        </div>
+                        <div>
+                            <label for="amount">Amount</label>
+                            <input type="number" id="amount" name="amount" required>
+                        </div>
+                        <div>
+                            <label for="category">Category</label>
+                            <input type="text" id="category" name="category">
+                        </div>
+                        <div>
+                            <label for="description">Description</label>
+                            <textarea id="description" name="description" required></textarea>
+                        </div>
+                        <button type="submit">Add Transaction</button>
+                    </form>
+                </div>
+                  
                 
-              
-                <div class="table-section expenses-breakdown">
+              <!-- Expense Breakdown -->
+                <div id="expenses" class="table-section expenses-breakdown">
                     <div class="table-header">
                         <div class="table-title">Expenses Breakdown</div>
                     </div>
@@ -398,7 +280,7 @@
                 </div>
 
                <!-- Income Breakdown -->
-               <div class="table-section income-breakdown">
+               <div id="income" class="table-section income-breakdown">
                 <div class="table-header">
                     <div class="table-title">Income Breakdown</div>
                 </div>
