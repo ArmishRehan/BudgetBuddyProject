@@ -255,3 +255,57 @@ window.onload = function() {
         })
         .catch(error => console.error("Error fetching transactions:", error));
 };
+
+// Select the table bodies for recent transactions, income breakdown, and expenses breakdown
+// Select the table bodies for recent transactions, income breakdown, and expenses breakdown
+const recentTransactionsTableBody = document.querySelector(".recent-transactions tbody");
+const incomeBreakdownTableBody = document.querySelector(".income-breakdown tbody");
+const expensesBreakdownTableBody = document.querySelector(".expenses-breakdown tbody");
+
+fetch('/api/recent-transactions')
+    .then(response => response.json())
+    .then(data => {
+        console.log("Fetched Data:", data); // Debug: Log the data from the API response
+
+        if (data.success) {
+            // Clear previous rows in all tables
+            recentTransactionsTableBody.innerHTML = '';
+            incomeBreakdownTableBody.innerHTML = '';
+            expensesBreakdownTableBody.innerHTML = '';
+
+            // Loop through the transactions and populate the tables
+            data.transactions.forEach(transaction => {
+                console.log("Processing Transaction:", transaction); // Debug: Log each transaction
+
+                // Create a new row
+                const row = document.createElement("tr");
+                
+                // Populate the row with transaction details
+                row.innerHTML = `
+                    <td>${transaction.transaction_id}</td>
+                    <td>${transaction.date}</td>
+                    <td>${transaction.amount}</td>
+                    <td>${transaction.category}</td>
+                `;
+
+                // Append the row to the Recent Transactions table
+                recentTransactionsTableBody.appendChild(row.cloneNode(true));
+
+                // If the transaction is an expense, append to the Expenses Breakdown table
+                if (transaction.type === 'Expense') {
+                    console.log("Appending to Expenses Breakdown:", transaction); // Debug
+                    expensesBreakdownTableBody.appendChild(row.cloneNode(true));
+                }
+                // If the transaction is an income, append to the Income Breakdown table
+                if (transaction.type === 'Income') {
+                    console.log("Appending to Income Breakdown:", transaction); // Debug
+                    incomeBreakdownTableBody.appendChild(row.cloneNode(true));
+                }
+            });
+        } else {
+            console.log("Error:", data.message);
+        }
+    })
+    .catch(error => {
+        console.error("Error fetching transactions:", error);
+    });

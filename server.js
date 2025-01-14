@@ -184,9 +184,9 @@ app.get("/api/recent-transactions", function(req, res) {
     const userId = req.session.user_id;
 
     const query = `
-        SELECT transaction_id, date, amount, category
+        SELECT transaction_id, DATE_FORMAT(date, '%Y-%m-%d') AS date, amount, category, type
         FROM user_transactions
-        WHERE type = 'Expense' AND user_id = ?
+        WHERE user_id = ?
         ORDER BY date DESC
         LIMIT 5
     `;
@@ -197,6 +197,7 @@ app.get("/api/recent-transactions", function(req, res) {
             return res.status(500).send({ success: false, message: "Error fetching transactions." });
         }
 
+        console.log(results); // Debug: Log the fetched results
         res.json({
             success: true,
             transactions: results

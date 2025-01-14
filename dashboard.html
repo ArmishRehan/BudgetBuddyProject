@@ -144,7 +144,7 @@
                     <div class="table-header">
                         <div id="recent-transactions" class="table-title">Recent Transactions</div>
                     </div>
-                    <table class="transactions-table">
+                    <table class="transactions-table recent-transactions">
                         <thead>
                             <tr>
                                 <th>Transaction ID</th>
@@ -154,11 +154,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            
-                            <!-- Other rows unchanged -->
+                            <!-- Recent transactions will be dynamically added here -->
                         </tbody>
                     </table>
                 </div>
+                
 
                 <!-- Transaction Overview Section -->
                 <div class="transaction-section" id="transaction">
@@ -390,7 +390,6 @@
                 </form>
                 
               
-                
                 <div class="table-section expenses-breakdown">
                     <div class="table-header">
                         <div class="table-title">Expenses Breakdown</div>
@@ -405,11 +404,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- New expense rows will be dynamically added here -->
+                            <!-- Expense transactions will be dynamically added here -->
                         </tbody>
                     </table>
                 </div>
-                
 
                <!-- Income Breakdown -->
                <div class="table-section income-breakdown">
@@ -426,7 +424,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- New income rows will be dynamically added here -->
+                        <!-- Income transactions will be dynamically added here -->
                     </tbody>
                 </table>
             </div>
