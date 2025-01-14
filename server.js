@@ -103,7 +103,6 @@ app.post("/signup", function(req, res) {
 
 // Add transaction route
 app.post("/api/transactions", function(req, res) {
-    // Log the entire request body to debug
     console.log("Request body:", req.body);
 
     const { type, date, amount, category, description } = req.body;
@@ -118,13 +117,14 @@ app.post("/api/transactions", function(req, res) {
 
     // Validate input fields
     if (!type || !date || !amount || !description) {
-        console.log("Missing required fields in transaction data.");
+        console.log("Validation failed:", { type, date, amount, description });
         return res.status(400).send({ success: false, message: "All fields are required." });
     }
 
-    // Insert the transaction into the database
     const query = "INSERT INTO user_transactions (user_id, type, category, date, amount, description) VALUES (?, ?, ?, ?, ?, ?)";
-    const values = [userId, type, category, date, amount, description];
+    const values = [userId, type, category || 'Uncategorized', date, amount, description];
+
+    console.log("Executing query:", query, "with values:", values);
 
     connection.query(query, values, function(error, results) {
         if (error) {
@@ -184,7 +184,7 @@ app.get("/api/recent-transactions", function(req, res) {
     const userId = req.session.user_id;
 
     const query = `
-        SELECT transaction_id, DATE_FORMAT(date, '%Y-%m-%d') AS date, amount, category, type
+        SELECT transaction_id, DATE_FORMAT(date, '%Y-%m-%d') AS date, amount, category, type, description
         FROM user_transactions
         WHERE user_id = ?
         ORDER BY date DESC

@@ -246,6 +246,7 @@ window.onload = function() {
                         <td>${transaction.date}</td>
                         <td>${transaction.amount} Rs</td>
                         <td>${transaction.category}</td>
+                        <td>${transaction.description}</td>
                     `;
                     transactionsTableBody.appendChild(row);
                 });
@@ -256,7 +257,6 @@ window.onload = function() {
         .catch(error => console.error("Error fetching transactions:", error));
 };
 
-// Select the table bodies for recent transactions, income breakdown, and expenses breakdown
 // Select the table bodies for recent transactions, income breakdown, and expenses breakdown
 const recentTransactionsTableBody = document.querySelector(".recent-transactions tbody");
 const incomeBreakdownTableBody = document.querySelector(".income-breakdown tbody");
@@ -277,16 +277,19 @@ fetch('/api/recent-transactions')
             data.transactions.forEach(transaction => {
                 console.log("Processing Transaction:", transaction); // Debug: Log each transaction
 
+              
                 // Create a new row
                 const row = document.createElement("tr");
                 
                 // Populate the row with transaction details
                 row.innerHTML = `
-                    <td>${transaction.transaction_id}</td>
-                    <td>${transaction.date}</td>
-                    <td>${transaction.amount}</td>
-                    <td>${transaction.category}</td>
-                `;
+                   <td>${transaction.transaction_id}</td>
+                   <td>${transaction.date}</td>
+                   <td>${transaction.amount}</td>
+                   <td>${transaction.category}</td>
+                   <td>${transaction.description}</td>
+`;
+
 
                 // Append the row to the Recent Transactions table
                 recentTransactionsTableBody.appendChild(row.cloneNode(true));
@@ -309,3 +312,4 @@ fetch('/api/recent-transactions')
     .catch(error => {
         console.error("Error fetching transactions:", error);
     });
+
