@@ -137,6 +137,75 @@ app.post("/api/transactions", function(req, res) {
     });
 });
 
+
+// Route to fetch total balance, expenses, and income
+app.get("/api/stats", function(req, res) {
+    if (!req.session.user_id) {
+        return res.status(403).send({ success: false, message: "You must be logged in to view stats." });
+    }
+
+    const userId = req.session.user_id;
+
+    // SQL query to fetch total balance, total income, and total expenses
+    const query = `
+        SELECT 
+            (SELECT IFNULL(SUM(amount), 0) FROM user_transactions WHERE type = 'Income' AND user_id = ?) AS total_income,
+            (SELECT IFNULL(SUM(amount), 0) FROM user_transactions WHERE type = 'Expense' AND user_id = ?) AS total_expenses
+    `;
+
+    connection.query(query, [userId, userId], function(error, results) {
+        if (error) {
+            console.error("Error fetching stats:", error);
+            return res.status(500).send({ success: false, message: "Error fetching stats." });
+        }
+
+        // Extract the data from results
+        const totalIncome = results[0].total_income || 0;
+        const totalExpenses = results[0].total_expenses || 0;
+        const totalBalance = totalIncome - totalExpenses;
+
+        // Send the data as a response
+        res.json({
+            total_balance: totalBalance,
+            total_income: totalIncome,
+            total_expenses: totalExpenses
+        });
+    });
+});
+
+
+//recent transactions wala
+// Get recent expense transactions
+app.get("/api/recent-transactions", function(req, res) {
+    if (!req.session.user_id) {
+        return res.status(403).send({ success: false, message: "You must be logged in to view transactions." });
+    }
+
+    const userId = req.session.user_id;
+
+    const query = `
+        SELECT transaction_id, date, amount, category
+        FROM user_transactions
+        WHERE type = 'Expense' AND user_id = ?
+        ORDER BY date DESC
+        LIMIT 5
+    `;
+
+    connection.query(query, [userId], function(error, results) {
+        if (error) {
+            console.error("Error fetching recent transactions:", error);
+            return res.status(500).send({ success: false, message: "Error fetching transactions." });
+        }
+
+        res.json({
+            success: true,
+            transactions: results
+        });
+    });
+});
+
+
+
 // Server listening on port
 app.listen(3000, function() {
     console.log("Server is running on port 3000");

@@ -1,0 +1,39 @@
+<div class="stats-card">
+    <div class="stats-header">
+        <div class="stats-info">
+            <div class="stats-title">Total Income</div>
+            <div id="totalIncome" class="stats-value">0 Rs</div>
+        </div>
+        <div class="stats-icon">
+            <i class="fas fa-money-bills" aria-label="Money bills icon"></i>
+        </div>
+    </div>
+</div>
+
+<div class="stats-card">
+    <div class="stats-header">
+        <div class="stats-info">
+            <div class="stats-title">Total Expenses</div>
+            <div id="totalExpenses" class="stats-value">0 Rs</div>
+        </div>
+        <div class="stats-icon">
+            <i class="fas fa-dollar-sign" aria-label="Dollar sign icon"></i>
+        </div>
+    </div>
+</div>
+
+<div class="stats-card">
+    <div class="stats-header">
+        <div class="stats-info">
+            <div class="stats-title">Total Balance</div>
+            <div id="totalBalance" class="stats-value">0 Rs</div>
+        </div>
+        <div class="stats-icon">
+            <i class="fas fa-wallet" aria-label="Wallet icon"></i>
+        </div>
+    </div>
+</div>
+
+app.get("/api/dashboard/stats", function(req, res) {
+    // Your logic to fetch total income, total expenses, and total balance
+});

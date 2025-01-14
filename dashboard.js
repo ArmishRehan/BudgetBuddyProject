@@ -194,3 +194,64 @@ function handleTransactionSubmit(event) {
 // Add event listener to form
 const form = document.querySelector("#transaction-form");
 form.addEventListener("submit", handleTransactionSubmit);
+
+
+//eman wala code
+// Fetch the data from the server
+fetch('/api/stats')
+    .then(response => response.json())
+    .then(data => {
+        // Update the HTML elements with the fetched data
+        document.getElementById('total-balance').textContent = data.total_balance + ' Rs';
+        document.getElementById('total-expenses').textContent = data.total_expenses + ' Rs';
+        document.getElementById('total-income').textContent = data.total_income + ' Rs';
+    })
+    .catch(error => {
+        console.error('Error fetching stats:', error);
+    });
+
+
+    //recent wala
+    // Fetch recent expense transactions when the page loads
+window.onload = function() {
+    // Fetch financial stats
+    fetch("/api/stats")
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById("total-balance").textContent = data.total_balance + " Rs";
+                document.getElementById("total-income").textContent = data.total_income + " Rs";
+                document.getElementById("total-expenses").textContent = data.total_expenses + " Rs";
+            } else {
+                console.log(data.message);
+            }
+        })
+        .catch(error => console.error("Error fetching stats:", error));
+
+    // Fetch recent expense transactions
+    fetch("/api/recent-transactions")
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const transactionsTableBody = document.querySelector(".transactions-table tbody");
+
+                // Clear the existing table rows
+                transactionsTableBody.innerHTML = '';
+
+                // Loop through the fetched transactions and populate the table
+                data.transactions.forEach(transaction => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${transaction.transaction_id}</td>
+                        <td>${transaction.date}</td>
+                        <td>${transaction.amount} Rs</td>
+                        <td>${transaction.category}</td>
+                    `;
+                    transactionsTableBody.appendChild(row);
+                });
+            } else {
+                console.log(data.message);
+            }
+        })
+        .catch(error => console.error("Error fetching transactions:", error));
+};
